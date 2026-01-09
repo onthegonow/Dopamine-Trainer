@@ -18,6 +18,7 @@
 		457FABAF2F118882006D4652 /* MenuBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABAE2F118882006D4652 /* MenuBarController.swift */; };
 		457FABB12F118B90006D4652 /* EmojiPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABB02F118B90006D4652 /* EmojiPickerView.swift */; };
 		457FABB32F118F78006D4652 /* SharedUIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABB22F118F78006D4652 /* SharedUIComponents.swift */; };
+		45CBB84B2F11C04C003738ED /* support.md in Resources */ = {isa = PBXBuildFile; fileRef = 45CBB84A2F11C047003738ED /* support.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		457FABAE2F118882006D4652 /* MenuBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarController.swift; sourceTree = "<group>"; };
 		457FABB02F118B90006D4652 /* EmojiPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPickerView.swift; sourceTree = "<group>"; };
 		457FABB22F118F78006D4652 /* SharedUIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedUIComponents.swift; sourceTree = "<group>"; };
+		45CBB84A2F11C047003738ED /* support.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = support.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -100,6 +102,7 @@
 		457FAB6B2F118424006D4652 = {
 			isa = PBXGroup;
 			children = (
+				45CBB84A2F11C047003738ED /* support.md */,
 				457FABA02F118464006D4652 /* concept.txt */,
 				457FAB762F118424006D4652 /* Dopamine Trainer */,
 				457FAB862F11842A006D4652 /* Dopamine TrainerTests */,
@@ -249,6 +252,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				457FABA12F118464006D4652 /* concept.txt in Resources */,
+				45CBB84B2F11C04C003738ED /* support.md in Resources */,
 				457FABA32F118564006D4652 /* spec.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,7 +462,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = .9;
+				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.freelunch.Dopamine-Trainer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -502,7 +506,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = .9;
+				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.freelunch.Dopamine-Trainer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
