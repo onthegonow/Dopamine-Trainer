@@ -1,0 +1,661 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		451A2D7E2F11A662004E3873 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 451A2D7D2F11A662004E3873 /* UserPreferences.swift */; };
+		457FABA12F118464006D4652 /* concept.txt in Resources */ = {isa = PBXBuildFile; fileRef = 457FABA02F118464006D4652 /* concept.txt */; };
+		457FABA32F118564006D4652 /* spec.txt in Resources */ = {isa = PBXBuildFile; fileRef = 457FABA22F118564006D4652 /* spec.txt */; };
+		457FABA52F118868006D4652 /* UrgeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABA42F118868006D4652 /* UrgeModels.swift */; };
+		457FABA72F118870006D4652 /* TimingEngines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABA62F118870006D4652 /* TimingEngines.swift */; };
+		457FABA92F118873006D4652 /* UrgeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABA82F118873006D4652 /* UrgeStore.swift */; };
+		457FABAB2F118877006D4652 /* ActiveTimersPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABAA2F118877006D4652 /* ActiveTimersPage.swift */; };
+		457FABAD2F11887D006D4652 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABAC2F11887D006D4652 /* HistoryView.swift */; };
+		457FABAF2F118882006D4652 /* MenuBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABAE2F118882006D4652 /* MenuBarController.swift */; };
+		457FABB12F118B90006D4652 /* EmojiPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABB02F118B90006D4652 /* EmojiPickerView.swift */; };
+		457FABB32F118F78006D4652 /* SharedUIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABB22F118F78006D4652 /* SharedUIComponents.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		457FAB842F11842A006D4652 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 457FAB6C2F118424006D4652 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 457FAB732F118424006D4652;
+			remoteInfo = "Dopamine Trainer";
+		};
+		457FAB8E2F11842A006D4652 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 457FAB6C2F118424006D4652 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 457FAB732F118424006D4652;
+			remoteInfo = "Dopamine Trainer";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		451A2D7D2F11A662004E3873 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		457FAB742F118424006D4652 /* Dopamine Trainer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dopamine Trainer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		457FAB832F11842A006D4652 /* Dopamine TrainerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Dopamine TrainerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		457FAB8D2F11842A006D4652 /* Dopamine TrainerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Dopamine TrainerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		457FABA02F118464006D4652 /* concept.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = concept.txt; sourceTree = "<group>"; };
+		457FABA22F118564006D4652 /* spec.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = spec.txt; sourceTree = "<group>"; };
+		457FABA42F118868006D4652 /* UrgeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgeModels.swift; sourceTree = "<group>"; };
+		457FABA62F118870006D4652 /* TimingEngines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimingEngines.swift; sourceTree = "<group>"; };
+		457FABA82F118873006D4652 /* UrgeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgeStore.swift; sourceTree = "<group>"; };
+		457FABAA2F118877006D4652 /* ActiveTimersPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTimersPage.swift; sourceTree = "<group>"; };
+		457FABAC2F11887D006D4652 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		457FABAE2F118882006D4652 /* MenuBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarController.swift; sourceTree = "<group>"; };
+		457FABB02F118B90006D4652 /* EmojiPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPickerView.swift; sourceTree = "<group>"; };
+		457FABB22F118F78006D4652 /* SharedUIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedUIComponents.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		457FAB762F118424006D4652 /* Dopamine Trainer */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Dopamine Trainer";
+			sourceTree = "<group>";
+		};
+		457FAB862F11842A006D4652 /* Dopamine TrainerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Dopamine TrainerTests";
+			sourceTree = "<group>";
+		};
+		457FAB902F11842A006D4652 /* Dopamine TrainerUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Dopamine TrainerUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		457FAB712F118424006D4652 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		457FAB802F11842A006D4652 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		457FAB8A2F11842A006D4652 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		457FAB6B2F118424006D4652 = {
+			isa = PBXGroup;
+			children = (
+				457FABA02F118464006D4652 /* concept.txt */,
+				457FAB762F118424006D4652 /* Dopamine Trainer */,
+				457FAB862F11842A006D4652 /* Dopamine TrainerTests */,
+				457FAB902F11842A006D4652 /* Dopamine TrainerUITests */,
+				457FAB752F118424006D4652 /* Products */,
+				457FABA22F118564006D4652 /* spec.txt */,
+				457FABA42F118868006D4652 /* UrgeModels.swift */,
+				457FABA62F118870006D4652 /* TimingEngines.swift */,
+				457FABA82F118873006D4652 /* UrgeStore.swift */,
+				457FABAA2F118877006D4652 /* ActiveTimersPage.swift */,
+				457FABAC2F11887D006D4652 /* HistoryView.swift */,
+				457FABAE2F118882006D4652 /* MenuBarController.swift */,
+				457FABB02F118B90006D4652 /* EmojiPickerView.swift */,
+				457FABB22F118F78006D4652 /* SharedUIComponents.swift */,
+				451A2D7D2F11A662004E3873 /* UserPreferences.swift */,
+			);
+			sourceTree = "<group>";
+		};
+		457FAB752F118424006D4652 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				457FAB742F118424006D4652 /* Dopamine Trainer.app */,
+				457FAB832F11842A006D4652 /* Dopamine TrainerTests.xctest */,
+				457FAB8D2F11842A006D4652 /* Dopamine TrainerUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		457FAB732F118424006D4652 /* Dopamine Trainer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 457FAB972F11842A006D4652 /* Build configuration list for PBXNativeTarget "Dopamine Trainer" */;
+			buildPhases = (
+				457FAB702F118424006D4652 /* Sources */,
+				457FAB712F118424006D4652 /* Frameworks */,
+				457FAB722F118424006D4652 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				457FAB762F118424006D4652 /* Dopamine Trainer */,
+			);
+			name = "Dopamine Trainer";
+			packageProductDependencies = (
+			);
+			productName = "Dopamine Trainer";
+			productReference = 457FAB742F118424006D4652 /* Dopamine Trainer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		457FAB822F11842A006D4652 /* Dopamine TrainerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 457FAB9A2F11842A006D4652 /* Build configuration list for PBXNativeTarget "Dopamine TrainerTests" */;
+			buildPhases = (
+				457FAB7F2F11842A006D4652 /* Sources */,
+				457FAB802F11842A006D4652 /* Frameworks */,
+				457FAB812F11842A006D4652 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				457FAB852F11842A006D4652 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				457FAB862F11842A006D4652 /* Dopamine TrainerTests */,
+			);
+			name = "Dopamine TrainerTests";
+			packageProductDependencies = (
+			);
+			productName = "Dopamine TrainerTests";
+			productReference = 457FAB832F11842A006D4652 /* Dopamine TrainerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		457FAB8C2F11842A006D4652 /* Dopamine TrainerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 457FAB9D2F11842A006D4652 /* Build configuration list for PBXNativeTarget "Dopamine TrainerUITests" */;
+			buildPhases = (
+				457FAB892F11842A006D4652 /* Sources */,
+				457FAB8A2F11842A006D4652 /* Frameworks */,
+				457FAB8B2F11842A006D4652 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				457FAB8F2F11842A006D4652 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				457FAB902F11842A006D4652 /* Dopamine TrainerUITests */,
+			);
+			name = "Dopamine TrainerUITests";
+			packageProductDependencies = (
+			);
+			productName = "Dopamine TrainerUITests";
+			productReference = 457FAB8D2F11842A006D4652 /* Dopamine TrainerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		457FAB6C2F118424006D4652 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2620;
+				LastUpgradeCheck = 2620;
+				TargetAttributes = {
+					457FAB732F118424006D4652 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					457FAB822F11842A006D4652 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = 457FAB732F118424006D4652;
+					};
+					457FAB8C2F11842A006D4652 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = 457FAB732F118424006D4652;
+					};
+				};
+			};
+			buildConfigurationList = 457FAB6F2F118424006D4652 /* Build configuration list for PBXProject "Dopamine Trainer" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 457FAB6B2F118424006D4652;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 457FAB752F118424006D4652 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				457FAB732F118424006D4652 /* Dopamine Trainer */,
+				457FAB822F11842A006D4652 /* Dopamine TrainerTests */,
+				457FAB8C2F11842A006D4652 /* Dopamine TrainerUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		457FAB722F118424006D4652 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				457FABA12F118464006D4652 /* concept.txt in Resources */,
+				457FABA32F118564006D4652 /* spec.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		457FAB812F11842A006D4652 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		457FAB8B2F11842A006D4652 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		457FAB702F118424006D4652 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				457FABAF2F118882006D4652 /* MenuBarController.swift in Sources */,
+				451A2D7E2F11A662004E3873 /* UserPreferences.swift in Sources */,
+				457FABAD2F11887D006D4652 /* HistoryView.swift in Sources */,
+				457FABAB2F118877006D4652 /* ActiveTimersPage.swift in Sources */,
+				457FABB32F118F78006D4652 /* SharedUIComponents.swift in Sources */,
+				457FABA92F118873006D4652 /* UrgeStore.swift in Sources */,
+				457FABA52F118868006D4652 /* UrgeModels.swift in Sources */,
+				457FABB12F118B90006D4652 /* EmojiPickerView.swift in Sources */,
+				457FABA72F118870006D4652 /* TimingEngines.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		457FAB7F2F11842A006D4652 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		457FAB892F11842A006D4652 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		457FAB852F11842A006D4652 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 457FAB732F118424006D4652 /* Dopamine Trainer */;
+			targetProxy = 457FAB842F11842A006D4652 /* PBXContainerItemProxy */;
+		};
+		457FAB8F2F11842A006D4652 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 457FAB732F118424006D4652 /* Dopamine Trainer */;
+			targetProxy = 457FAB8E2F11842A006D4652 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		457FAB952F11842A006D4652 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		457FAB962F11842A006D4652 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		457FAB982F11842A006D4652 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XWW34782F3;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dopamine Trainer";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MARKETING_VERSION = .9;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.freelunch.Dopamine-Trainer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		457FAB992F11842A006D4652 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XWW34782F3;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dopamine Trainer";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MARKETING_VERSION = .9;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.freelunch.Dopamine-Trainer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		457FAB9B2F11842A006D4652 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MACOSX_DEPLOYMENT_TARGET = 26.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.freelunch.Dopamine-TrainerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dopamine Trainer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Dopamine Trainer";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		457FAB9C2F11842A006D4652 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MACOSX_DEPLOYMENT_TARGET = 26.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.freelunch.Dopamine-TrainerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dopamine Trainer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Dopamine Trainer";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Release;
+		};
+		457FAB9E2F11842A006D4652 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MACOSX_DEPLOYMENT_TARGET = 26.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.freelunch.Dopamine-TrainerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_TARGET_NAME = "Dopamine Trainer";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		457FAB9F2F11842A006D4652 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MACOSX_DEPLOYMENT_TARGET = 26.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.freelunch.Dopamine-TrainerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_TARGET_NAME = "Dopamine Trainer";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		457FAB6F2F118424006D4652 /* Build configuration list for PBXProject "Dopamine Trainer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				457FAB952F11842A006D4652 /* Debug */,
+				457FAB962F11842A006D4652 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		457FAB972F11842A006D4652 /* Build configuration list for PBXNativeTarget "Dopamine Trainer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				457FAB982F11842A006D4652 /* Debug */,
+				457FAB992F11842A006D4652 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		457FAB9A2F11842A006D4652 /* Build configuration list for PBXNativeTarget "Dopamine TrainerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				457FAB9B2F11842A006D4652 /* Debug */,
+				457FAB9C2F11842A006D4652 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		457FAB9D2F11842A006D4652 /* Build configuration list for PBXNativeTarget "Dopamine TrainerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				457FAB9E2F11842A006D4652 /* Debug */,
+				457FAB9F2F11842A006D4652 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 457FAB6C2F118424006D4652 /* Project object */;
+}

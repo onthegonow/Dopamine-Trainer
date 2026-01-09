@@ -1,0 +1,572 @@
+import SwiftUI
+import Combine
+
+// MARK: - UrgeEntryModel
+
+enum UrgeStatus: String, Codable, CaseIterable, Identifiable {
+    case active = "Active"
+    case beatIt = "BeatIt"
+    case satisfied = "Satisfied"
+    case faded = "Faded"
+
+    var id: String { rawValue }
+
+    var color: Color {
+        switch self {
+        case .beatIt: return .green
+        case .satisfied: return Color.red.opacity(0.7)
+        case .faded: return .gray
+        case .active: return .primary
+        }
+    }
+}
+
+struct UrgeEntryModel: Identifiable, Codable, Equatable {
+    let id: UUID
+    let createdAt: Date
+    var resolvedAt: Date?
+    var status: UrgeStatus
+
+    var durationSeconds: TimeInterval {
+        if status == .active {
+            return Date().timeIntervalSince(createdAt)
+        } else if status == .faded {
+            return 24 * 3600
+        } else if let resolved = resolvedAt {
+            return resolved.timeIntervalSince(createdAt)
+        } else {
+            return 0
+        }
+    }
+}
+
+// MARK: - UrgeStore
+
+final class UrgeStore: ObservableObject {
+
+    static let shared = UrgeStore()
+
+    @Published private(set) var activeEntries: [UrgeEntryModel] = []
+    @Published private(set) var historyEntries: [UrgeEntryModel] = []
+
+    private let historyPageSize = 20
+    private var allHistoryEntries: [UrgeEntryModel] = []
+
+    private var cancellables = Set<AnyCancellable>()
+
+    private init() {
+        // For demo/testing, could load persisted data here.
+    }
+
+    func createActive() {
+        let newEntry = UrgeEntryModel(id: UUID(), createdAt: Date(), resolvedAt: nil, status: .active)
+        activeEntries.insert(newEntry, at: 0)
+    }
+
+    func resolve(entryId: UUID, status: UrgeStatus, resolvedAt: Date = Date()) {
+        guard var index = activeEntries.firstIndex(where: { $0.id == entryId }) else { return }
+        var entry = activeEntries[index]
+        entry.status = status
+        if status == .faded {
+            entry.resolvedAt = entry.createdAt.addingTimeInterval(24 * 3600)
+        } else {
+            entry.resolvedAt = resolvedAt
+        }
+        activeEntries.remove(at: index)
+
+        // Insert into history sorted by createdAt descending
+        insertHistoryEntry(entry)
+    }
+
+    func delete(entryId: UUID) {
+        if let index = activeEntries.firstIndex(where: { $0.id == entryId }) {
+            activeEntries.remove(at: index)
+        }
+    }
+
+    func mostRecentActive() -> UrgeEntryModel? {
+        activeEntries.first
+    }
+
+    // MARK: - History Pagination & Filtering
+
+    enum StatusFilter: String, CaseIterable, Identifiable {
+        case all = "All"
+        case beatIt = "Beat it"
+        case satisfied = "Satisfied"
+        case faded = "Faded"
+
+        var id: String { rawValue }
+        var urgeStatuses: [UrgeStatus]? {
+            switch self {
+            case .all: return nil
+            case .beatIt: return [.beatIt]
+            case .satisfied: return [.satisfied]
+            case .faded: return [.faded]
+            }
+        }
+    }
+
+    @Published var currentFilter: StatusFilter = .all
+    @Published var historyEntriesPage: [UrgeEntryModel] = []
+
+    private var currentPage: Int = 0
+
+    func queryHistory(reset: Bool = false) {
+        if reset {
+            currentPage = 0
+            historyEntriesPage = []
+        }
+
+        var filtered = allHistoryEntries
+        if let filterStatuses = currentFilter.urgeStatuses {
+            filtered = allHistoryEntries.filter { filterStatuses.contains($0.status) }
+        }
+
+        let start = currentPage * historyPageSize
+        guard start < filtered.count else { return }
+
+        let end = min(start + historyPageSize, filtered.count)
+        let nextPageItems = Array(filtered[start..<end])
+        if reset {
+            historyEntriesPage = nextPageItems
+        } else {
+            historyEntriesPage.append(contentsOf: nextPageItems)
+        }
+        currentPage += 1
+    }
+
+    func loadMoreHistoryIfNeeded(currentItem: UrgeEntryModel?) {
+        guard let currentItem = currentItem else { return }
+        let thresholdIndex = historyEntriesPage.index(historyEntriesPage.endIndex, offsetBy: -5)
+        if let currentIndex = historyEntriesPage.firstIndex(where: { $0.id == currentItem.id }),
+           currentIndex >= thresholdIndex {
+            queryHistory()
+        }
+    }
+
+    // Call this to add resolved entries to history
+    private func insertHistoryEntry(_ entry: UrgeEntryModel) {
+        allHistoryEntries.insert(entry, at: 0)
+        queryHistory(reset: true)
+    }
+
+    // For testing/demo: inject past history
+    func loadDummyHistory() {
+        let now = Date()
+        allHistoryEntries = (1...50).map {
+            let created = now.addingTimeInterval(TimeInterval(-$0 * 3600))
+            var status: UrgeStatus = .beatIt
+            if $0 % 3 == 0 { status = .satisfied }
+            else if $0 % 7 == 0 { status = .faded }
+            return UrgeEntryModel(id: UUID(), createdAt: created, resolvedAt: created.addingTimeInterval(300), status: status)
+        }
+        queryHistory(reset: true)
+    }
+}
+
+// MARK: - UrgeTimerEngine
+
+final class UrgeTimerEngine: ObservableObject {
+    static let shared = UrgeTimerEngine()
+
+    @Published var currentDate: Date = Date()
+
+    private var timer: Timer?
+
+    private init() {
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            self?.currentDate = Date()
+        }
+    }
+
+    deinit {
+        timer?.invalidate()
+    }
+}
+
+// MARK: - AutoFadeReconciler
+
+final class AutoFadeReconciler {
+    private var timer: Timer?
+    private let store: UrgeStore
+
+    init(store: UrgeStore = .shared) {
+        self.store = store
+    }
+
+    func start() {
+        timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+            self?.reconcile()
+        }
+        reconcile() // Initial check
+    }
+
+    func stop() {
+        timer?.invalidate()
+        timer = nil
+    }
+
+    private func reconcile() {
+        let now = Date()
+        for entry in store.activeEntries {
+            if now.timeIntervalSince(entry.createdAt) >= 24 * 3600 {
+                store.resolve(entryId: entry.id, status: .faded, resolvedAt: entry.createdAt.addingTimeInterval(24*3600))
+            }
+        }
+    }
+}
+
+// MARK: - Views
+
+// MARK: Active Timers Page
+
+struct ActiveTimersPage: View {
+
+    @ObservedObject private var store = UrgeStore.shared
+    @ObservedObject private var timerEngine = UrgeTimerEngine.shared
+
+    @State private var deleteConfirmationEntry: UrgeEntryModel?
+    @State private var selection: HistoryView.Page = .activeTimers
+
+    var body: some View {
+        VStack {
+            // Navigation control for switching pages
+            Picker("Page", selection: $selection) {
+                Text("Active Timers").tag(HistoryView.Page.activeTimers)
+                Text("History").tag(HistoryView.Page.history)
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding()
+
+            if selection == .activeTimers {
+                VStack(spacing: 24) {
+                    CravingButton {
+                        store.createActive()
+                    }
+                    .padding(.top, 20)
+                    
+                    List {
+                        if store.activeEntries.isEmpty {
+                            HStack {
+                                Spacer()
+                                Text("No active urges")
+                                    .foregroundColor(.secondary)
+                                Spacer()
+                            }
+                        } else {
+                            ForEach(store.activeEntries) { entry in
+                                ActiveTimerRow(entry: entry,
+                                               timerEngine: timerEngine,
+                                               onBeatIt: { store.resolve(entryId: entry.id, status: .beatIt) },
+                                               onScratchedItch: { store.resolve(entryId: entry.id, status: .satisfied) })
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                    Button(role: .destructive) {
+                                        deleteConfirmationEntry = entry
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .listStyle(.insetGrouped)
+                }
+                .alert(item: $deleteConfirmationEntry) { entry in
+                    Alert(title: Text("Delete Active Urge?"),
+                          message: Text("Are you sure you want to cancel this active urge? This cannot be undone."),
+                          primaryButton: .destructive(Text("Delete")) {
+                            store.delete(entryId: entry.id)
+                          },
+                          secondaryButton: .cancel())
+                }
+            } else if selection == .history {
+                HistoryView()
+            }
+        }
+        .frame(minWidth: 480, minHeight: 400)
+        .onAppear {
+            AutoFadeReconciler(store: store).start()
+            store.loadDummyHistory()
+        }
+    }
+}
+
+// MARK: CravingButton
+
+struct CravingButton: View {
+    let action: () -> Void
+    
+    @State private var isPressed = false
+    
+    private let buttonSize: CGFloat = 140
+    
+    var body: some View {
+        Button(action: action) {
+            ZStack {
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [Color.accentColor, Color.accentColor.opacity(0.7)],
+                            center: .center,
+                            startRadius: 0,
+                            endRadius: buttonSize / 2
+                        )
+                    )
+                    .frame(width: buttonSize, height: buttonSize)
+                    .shadow(color: Color.accentColor.opacity(0.5), radius: isPressed ? 5 : 15, x: 0, y: isPressed ? 2 : 8)
+                
+                Text("Craving")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+            }
+        }
+        .buttonStyle(PlainButtonStyle())
+        .scaleEffect(isPressed ? 0.95 : 1.0)
+        .animation(.easeInOut(duration: 0.15), value: isPressed)
+        .onLongPressGesture(minimumDuration: .infinity, pressing: { pressing in
+            isPressed = pressing
+        }, perform: {})
+    }
+}
+
+// MARK: ActiveTimerRow
+
+struct ActiveTimerRow: View {
+    let entry: UrgeEntryModel
+    @ObservedObject var timerEngine: UrgeTimerEngine
+    let onBeatIt: () -> Void
+    let onScratchedItch: () -> Void
+
+    private var elapsedTimeString: String {
+        let duration = entry.durationSeconds
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute, .second]
+        formatter.zeroFormattingBehavior = .pad
+        return formatter.string(from: duration) ?? "00:00:00"
+    }
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Text(elapsedTimeString)
+                .font(.system(.body, design: .monospaced))
+                .frame(width: 80, alignment: .leading)
+
+            Spacer()
+
+            Button("Beat it!") {
+                onBeatIt()
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.regular)
+            .frame(minWidth: 90)
+
+            Button("Scratched the itch") {
+                onScratchedItch()
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.small)
+        }
+        .padding(.vertical, 6)
+    }
+}
+
+// MARK: History View
+
+struct HistoryView: View {
+
+    enum Page {
+        case activeTimers
+        case history
+    }
+
+    @ObservedObject private var store = UrgeStore.shared
+
+    var body: some View {
+        VStack {
+            HistoryFilterStatusControl(selectedFilter: $store.currentFilter)
+                .padding(.horizontal)
+
+            List(store.historyEntriesPage) { entry in
+                HistoryRow(entry: entry)
+                    .onAppear {
+                        store.loadMoreHistoryIfNeeded(currentItem: entry)
+                    }
+            }
+            .listStyle(.plain)
+        }
+        .onChange(of: store.currentFilter) { _ in
+            store.queryHistory(reset: true)
+        }
+    }
+}
+
+// MARK: HistoryFilterStatusControl
+
+struct HistoryFilterStatusControl: View {
+
+    @Binding var selectedFilter: UrgeStore.StatusFilter
+
+    var body: some View {
+        Picker("Filter", selection: $selectedFilter) {
+            ForEach(UrgeStore.StatusFilter.allCases) { filter in
+                Text(filter.rawValue).tag(filter)
+            }
+        }
+        .pickerStyle(SegmentedPickerStyle())
+    }
+}
+
+// MARK: HistoryRow
+
+struct HistoryRow: View {
+    let entry: UrgeEntryModel
+
+    private var timestampString: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter.string(from: entry.createdAt)
+    }
+
+    private var durationString: String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute, .second]
+        formatter.zeroFormattingBehavior = .pad
+        return formatter.string(from: entry.durationSeconds) ?? "00:00:00"
+    }
+
+    private var statusColor: Color {
+        entry.status.color
+    }
+
+    private var statusText: String {
+        switch entry.status {
+        case .beatIt: return "Beat it"
+        case .satisfied: return "Satisfied"
+        case .faded: return "Faded"
+        case .active: return "Active"
+        }
+    }
+
+    var body: some View {
+        HStack {
+            Text(timestampString)
+                .frame(width: 120, alignment: .leading)
+                .font(.footnote)
+
+            Spacer()
+
+            Text(durationString)
+                .fontWeight(.bold)
+                .frame(width: 90, alignment: .center)
+                .monospacedDigit()
+
+            Spacer()
+
+            Text(statusText)
+                .foregroundColor(statusColor)
+                .fontWeight(.medium)
+                .frame(width: 90, alignment: .trailing)
+        }
+        .padding(.vertical, 4)
+    }
+}
+
+// MARK: - Menu Bar Components
+
+import AppKit
+
+final class MenuBarController: NSObject {
+    static let shared = MenuBarController()
+
+    private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+
+    private let store = UrgeStore.shared
+
+    private var cancellables = Set<AnyCancellable>()
+
+    override init() {
+        super.init()
+        constructMenu()
+
+        // Update menu items enabling/disabling on active entries changes
+        store.$activeEntries
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.constructMenu()
+            }
+            .store(in: &cancellables)
+    }
+
+    private func constructMenu() {
+        guard let button = statusItem.button else { return }
+        button.image = NSImage(systemSymbolName: "circle.hexagonpath.fill", accessibilityDescription: "Dopamine Trainer")
+
+        let menu = NSMenu()
+
+        let startUrgeItem = NSMenuItem(title: "Start Urge", action: #selector(startUrgeAction), keyEquivalent: "")
+        startUrgeItem.target = self
+        menu.addItem(startUrgeItem)
+
+        let hasActive = store.mostRecentActive() != nil
+
+        let beatItItem = NSMenuItem(title: "Beat it!", action: #selector(beatItAction), keyEquivalent: "")
+        beatItItem.target = self
+        beatItItem.isEnabled = hasActive
+        menu.addItem(beatItItem)
+
+        let scratchedItem = NSMenuItem(title: "Scratched the itch", action: #selector(scratchedItchAction), keyEquivalent: "")
+        scratchedItem.target = self
+        scratchedItem.isEnabled = hasActive
+        menu.addItem(scratchedItem)
+
+        statusItem.menu = menu
+    }
+
+    @objc private func startUrgeAction() {
+        store.createActive()
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
+    @objc private func beatItAction() {
+        if let entry = store.mostRecentActive() {
+            store.resolve(entryId: entry.id, status: .beatIt)
+            NSApp.activate(ignoringOtherApps: true)
+        }
+    }
+
+    @objc private func scratchedItchAction() {
+        if let entry = store.mostRecentActive() {
+            store.resolve(entryId: entry.id, status: .satisfied)
+            NSApp.activate(ignoringOtherApps: true)
+        }
+    }
+}
+
+// MARK: - App Entry Point
+
+@main
+struct DopamineTrainerApp: App {
+
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
+    var body: some Scene {
+        WindowGroup {
+            ActiveTimersPage()
+        }
+    }
+}
+
+final class AppDelegate: NSObject, NSApplicationDelegate {
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        _ = MenuBarController.shared
+    }
+
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        false
+    }
+}
+
