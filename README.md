@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img width="1024" height="1024" alt="dopaminegymlogo" src="https://github.com/user-attachments/assets/243d4b56-5fff-48a3-8d31-bb78812a8c3b" />
+  <img width="256" height="256" alt="dopaminegymlogo" src="https://github.com/user-attachments/assets/243d4b56-5fff-48a3-8d31-bb78812a8c3b" />
 
   <br/><br/>
 
