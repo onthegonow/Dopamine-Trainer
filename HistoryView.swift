@@ -8,9 +8,40 @@ struct HistoryView: View {
     }
 
     @ObservedObject private var store = UrgeStore.shared
+    @State private var showSummary = true
 
     var body: some View {
         VStack(spacing: 0) {
+            // Summary Dashboard (collapsible)
+            if showSummary {
+                CravingSummaryDashboard(store: store)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                
+                Divider()
+                    .padding(.vertical, 8)
+            }
+            
+            // Toggle button for summary
+            HStack {
+                Button {
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        showSummary.toggle()
+                    }
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: showSummary ? "chevron.up" : "chevron.down")
+                        Text(showSummary ? "Hide Summary" : "Show Summary")
+                    }
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+                
+                Spacer()
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 8)
+            
             HistoryFilterStatusControl(selectedFilter: $store.currentFilter)
                 .padding(.horizontal)
                 .padding(.bottom, 16)

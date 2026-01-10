@@ -9,14 +9,19 @@ struct ActiveTimersPage: View {
     @State private var selection: HistoryView.Page = .activeTimers
 
     var body: some View {
-        VStack {
-            Picker("", selection: $selection) {
-                Text("Active Timers").tag(HistoryView.Page.activeTimers)
-                Text("History").tag(HistoryView.Page.history)
+        VStack(spacing: 0) {
+            // Top navigation picker - explicitly NOT a toolbar
+            VStack {
+                Picker("View", selection: $selection) {
+                    Text("Active Timers").tag(HistoryView.Page.activeTimers)
+                    Text("History").tag(HistoryView.Page.history)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding(.horizontal)
+                .padding(.vertical, 12)
             }
-            .pickerStyle(SegmentedPickerStyle())
-            .labelsHidden()
-            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color(nsColor: .windowBackgroundColor))
 
             if selection == .activeTimers {
                 VStack(spacing: 0) {
@@ -77,6 +82,7 @@ struct ActiveTimersPage: View {
                   secondaryButton: .cancel())
         }
         .frame(minWidth: 800, minHeight: 400)
+        .toolbarRole(.editor)
         .onAppear {
             AutoFadeReconciler(store: store).start()
         }

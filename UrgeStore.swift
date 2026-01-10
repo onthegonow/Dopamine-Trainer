@@ -249,9 +249,51 @@ final class UrgeStore: ObservableObject {
             var status: UrgeStatus = .beatIt
             if $0 % 3 == 0 { status = .satisfied }
             else if $0 % 7 == 0 { status = .faded }
-            return UrgeEntryModel(id: UUID(), createdAt: created, resolvedAt: created.addingTimeInterval(300), status: status)
+            
+            // Add some random tags for testing
+            var tags: [UrgeTag] = []
+            let availableTags = UrgeTag.defaultCatalog
+            let tagCount = Int.random(in: 1...3)
+            for _ in 0..<tagCount {
+                if let randomTag = availableTags.randomElement(), !tags.contains(randomTag) {
+                    tags.append(randomTag)
+                }
+            }
+            
+            // Vary duration based on status
+            let duration: TimeInterval
+            switch status {
+            case .beatIt: duration = TimeInterval.random(in: 300...7200) // 5 min to 2 hours
+            case .satisfied: duration = TimeInterval.random(in: 60...1800) // 1 min to 30 min
+            case .faded: duration = 24 * 3600
+            case .active: duration = 0
+            }
+            
+            return UrgeEntryModel(
+                id: UUID(),
+                createdAt: created,
+                resolvedAt: created.addingTimeInterval(duration),
+                status: status,
+                tags: tags
+            )
         }
         queryHistory(reset: true)
+    }
+    
+    // MARK: - Summary Support
+    
+    /// Get summary stats for a given time slice
+    func summaryStats(for timeSlice: SummaryTimeSlice) -> CravingSummaryStats {
+        let range = timeSlice.dateRange
+        let filtered = allHistoryEntries.filter {
+            $0.createdAt >= range.start && $0.createdAt <= range.end
+        }
+        return CravingSummaryStats(timeSlice: timeSlice, entries: filtered)
+    }
+    
+    /// Provides read-only access to all history entries for summary calculations
+    var allHistoryEntriesForSummary: [UrgeEntryModel] {
+        allHistoryEntries
     }
 }
 

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		451A2D7E2F11A662004E3873 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 451A2D7D2F11A662004E3873 /* UserPreferences.swift */; };
+		453E88382F11E8CA00A8DD6F /* SummaryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453E88372F11E8CA00A8DD6F /* SummaryModels.swift */; };
+		453E883A2F11E8FF00A8DD6F /* SummaryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453E88392F11E8FF00A8DD6F /* SummaryViews.swift */; };
 		457FABA12F118464006D4652 /* concept.txt in Resources */ = {isa = PBXBuildFile; fileRef = 457FABA02F118464006D4652 /* concept.txt */; };
 		457FABA32F118564006D4652 /* spec.txt in Resources */ = {isa = PBXBuildFile; fileRef = 457FABA22F118564006D4652 /* spec.txt */; };
 		457FABA52F118868006D4652 /* UrgeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABA42F118868006D4652 /* UrgeModels.swift */; };
@@ -40,6 +42,8 @@
 
 /* Begin PBXFileReference section */
 		451A2D7D2F11A662004E3873 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		453E88372F11E8CA00A8DD6F /* SummaryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryModels.swift; sourceTree = "<group>"; };
+		453E88392F11E8FF00A8DD6F /* SummaryViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryViews.swift; sourceTree = "<group>"; };
 		457FAB742F118424006D4652 /* Dopamine Trainer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dopamine Trainer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		457FAB832F11842A006D4652 /* Dopamine TrainerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Dopamine TrainerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		457FAB8D2F11842A006D4652 /* Dopamine TrainerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Dopamine TrainerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,6 +122,8 @@
 				457FABB02F118B90006D4652 /* EmojiPickerView.swift */,
 				457FABB22F118F78006D4652 /* SharedUIComponents.swift */,
 				451A2D7D2F11A662004E3873 /* UserPreferences.swift */,
+				453E88372F11E8CA00A8DD6F /* SummaryModels.swift */,
+				453E88392F11E8FF00A8DD6F /* SummaryViews.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -279,12 +285,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				457FABAF2F118882006D4652 /* MenuBarController.swift in Sources */,
+				453E88382F11E8CA00A8DD6F /* SummaryModels.swift in Sources */,
 				451A2D7E2F11A662004E3873 /* UserPreferences.swift in Sources */,
 				457FABAD2F11887D006D4652 /* HistoryView.swift in Sources */,
 				457FABAB2F118877006D4652 /* ActiveTimersPage.swift in Sources */,
 				457FABB32F118F78006D4652 /* SharedUIComponents.swift in Sources */,
 				457FABA92F118873006D4652 /* UrgeStore.swift in Sources */,
 				457FABA52F118868006D4652 /* UrgeModels.swift in Sources */,
+				453E883A2F11E8FF00A8DD6F /* SummaryViews.swift in Sources */,
 				457FABB12F118B90006D4652 /* EmojiPickerView.swift in Sources */,
 				457FABA72F118870006D4652 /* TimingEngines.swift in Sources */,
 			);
