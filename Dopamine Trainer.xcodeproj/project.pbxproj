@@ -7,11 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		450F8C1C2F12DCF0002E5153 /* CloudKitPublicSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450F8C1B2F12DCEF002E5153 /* CloudKitPublicSyncService.swift */; };
 		451A2D7E2F11A662004E3873 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 451A2D7D2F11A662004E3873 /* UserPreferences.swift */; };
 		453E88382F11E8CA00A8DD6F /* SummaryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453E88372F11E8CA00A8DD6F /* SummaryModels.swift */; };
 		453E883A2F11E8FF00A8DD6F /* SummaryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453E88392F11E8FF00A8DD6F /* SummaryViews.swift */; };
-		457FABA12F118464006D4652 /* concept.txt in Resources */ = {isa = PBXBuildFile; fileRef = 457FABA02F118464006D4652 /* concept.txt */; };
-		457FABA32F118564006D4652 /* spec.txt in Resources */ = {isa = PBXBuildFile; fileRef = 457FABA22F118564006D4652 /* spec.txt */; };
 		457FABA52F118868006D4652 /* UrgeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABA42F118868006D4652 /* UrgeModels.swift */; };
 		457FABA72F118870006D4652 /* TimingEngines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABA62F118870006D4652 /* TimingEngines.swift */; };
 		457FABA92F118873006D4652 /* UrgeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABA82F118873006D4652 /* UrgeStore.swift */; };
@@ -20,6 +19,10 @@
 		457FABAF2F118882006D4652 /* MenuBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABAE2F118882006D4652 /* MenuBarController.swift */; };
 		457FABB12F118B90006D4652 /* EmojiPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABB02F118B90006D4652 /* EmojiPickerView.swift */; };
 		457FABB32F118F78006D4652 /* SharedUIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FABB22F118F78006D4652 /* SharedUIComponents.swift */; };
+		45BB04AC2F12FE1700C72DCF /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BB04AB2F12FE1700C72DCF /* FeatureFlags.swift */; };
+		45C182322F130E4D00144467 /* EMOJI_TAG_MAPPING_ARCHITECTURE.md in Resources */ = {isa = PBXBuildFile; fileRef = 45C182312F130E4D00144467 /* EMOJI_TAG_MAPPING_ARCHITECTURE.md */; };
+		45C182342F13122500144467 /* CLOUDKIT_TAG_SYNC_IMPLEMENTATION.md in Resources */ = {isa = PBXBuildFile; fileRef = 45C182332F13122500144467 /* CLOUDKIT_TAG_SYNC_IMPLEMENTATION.md */; };
+		45C182362F13139F00144467 /* SECURITY_AUDIT_MULTI_USER_ISOLATION.md in Resources */ = {isa = PBXBuildFile; fileRef = 45C182352F13139F00144467 /* SECURITY_AUDIT_MULTI_USER_ISOLATION.md */; };
 		45CBB84B2F11C04C003738ED /* support.md in Resources */ = {isa = PBXBuildFile; fileRef = 45CBB84A2F11C047003738ED /* support.md */; };
 /* End PBXBuildFile section */
 
@@ -41,14 +44,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		450F8C1B2F12DCEF002E5153 /* CloudKitPublicSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitPublicSyncService.swift; sourceTree = "<group>"; };
 		451A2D7D2F11A662004E3873 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 		453E88372F11E8CA00A8DD6F /* SummaryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryModels.swift; sourceTree = "<group>"; };
 		453E88392F11E8FF00A8DD6F /* SummaryViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryViews.swift; sourceTree = "<group>"; };
 		457FAB742F118424006D4652 /* Dopamine Trainer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dopamine Trainer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		457FAB832F11842A006D4652 /* Dopamine TrainerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Dopamine TrainerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		457FAB8D2F11842A006D4652 /* Dopamine TrainerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Dopamine TrainerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		457FABA02F118464006D4652 /* concept.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = concept.txt; sourceTree = "<group>"; };
-		457FABA22F118564006D4652 /* spec.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = spec.txt; sourceTree = "<group>"; };
 		457FABA42F118868006D4652 /* UrgeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgeModels.swift; sourceTree = "<group>"; };
 		457FABA62F118870006D4652 /* TimingEngines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimingEngines.swift; sourceTree = "<group>"; };
 		457FABA82F118873006D4652 /* UrgeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgeStore.swift; sourceTree = "<group>"; };
@@ -57,6 +59,10 @@
 		457FABAE2F118882006D4652 /* MenuBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarController.swift; sourceTree = "<group>"; };
 		457FABB02F118B90006D4652 /* EmojiPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPickerView.swift; sourceTree = "<group>"; };
 		457FABB22F118F78006D4652 /* SharedUIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedUIComponents.swift; sourceTree = "<group>"; };
+		45BB04AB2F12FE1700C72DCF /* FeatureFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
+		45C182312F130E4D00144467 /* EMOJI_TAG_MAPPING_ARCHITECTURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = EMOJI_TAG_MAPPING_ARCHITECTURE.md; sourceTree = "<group>"; };
+		45C182332F13122500144467 /* CLOUDKIT_TAG_SYNC_IMPLEMENTATION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLOUDKIT_TAG_SYNC_IMPLEMENTATION.md; sourceTree = "<group>"; };
+		45C182352F13139F00144467 /* SECURITY_AUDIT_MULTI_USER_ISOLATION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SECURITY_AUDIT_MULTI_USER_ISOLATION.md; sourceTree = "<group>"; };
 		45CBB84A2F11C047003738ED /* support.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = support.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,12 +113,10 @@
 			isa = PBXGroup;
 			children = (
 				45CBB84A2F11C047003738ED /* support.md */,
-				457FABA02F118464006D4652 /* concept.txt */,
 				457FAB762F118424006D4652 /* Dopamine Trainer */,
 				457FAB862F11842A006D4652 /* Dopamine TrainerTests */,
 				457FAB902F11842A006D4652 /* Dopamine TrainerUITests */,
 				457FAB752F118424006D4652 /* Products */,
-				457FABA22F118564006D4652 /* spec.txt */,
 				457FABA42F118868006D4652 /* UrgeModels.swift */,
 				457FABA62F118870006D4652 /* TimingEngines.swift */,
 				457FABA82F118873006D4652 /* UrgeStore.swift */,
@@ -124,6 +128,11 @@
 				451A2D7D2F11A662004E3873 /* UserPreferences.swift */,
 				453E88372F11E8CA00A8DD6F /* SummaryModels.swift */,
 				453E88392F11E8FF00A8DD6F /* SummaryViews.swift */,
+				450F8C1B2F12DCEF002E5153 /* CloudKitPublicSyncService.swift */,
+				45BB04AB2F12FE1700C72DCF /* FeatureFlags.swift */,
+				45C182312F130E4D00144467 /* EMOJI_TAG_MAPPING_ARCHITECTURE.md */,
+				45C182332F13122500144467 /* CLOUDKIT_TAG_SYNC_IMPLEMENTATION.md */,
+				45C182352F13139F00144467 /* SECURITY_AUDIT_MULTI_USER_ISOLATION.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -257,9 +266,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				457FABA12F118464006D4652 /* concept.txt in Resources */,
+				45C182322F130E4D00144467 /* EMOJI_TAG_MAPPING_ARCHITECTURE.md in Resources */,
+				45C182342F13122500144467 /* CLOUDKIT_TAG_SYNC_IMPLEMENTATION.md in Resources */,
+				45C182362F13139F00144467 /* SECURITY_AUDIT_MULTI_USER_ISOLATION.md in Resources */,
 				45CBB84B2F11C04C003738ED /* support.md in Resources */,
-				457FABA32F118564006D4652 /* spec.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,10 +300,12 @@
 				457FABAD2F11887D006D4652 /* HistoryView.swift in Sources */,
 				457FABAB2F118877006D4652 /* ActiveTimersPage.swift in Sources */,
 				457FABB32F118F78006D4652 /* SharedUIComponents.swift in Sources */,
+				45BB04AC2F12FE1700C72DCF /* FeatureFlags.swift in Sources */,
 				457FABA92F118873006D4652 /* UrgeStore.swift in Sources */,
 				457FABA52F118868006D4652 /* UrgeModels.swift in Sources */,
 				453E883A2F11E8FF00A8DD6F /* SummaryViews.swift in Sources */,
 				457FABB12F118B90006D4652 /* EmojiPickerView.swift in Sources */,
+				450F8C1C2F12DCF0002E5153 /* CloudKitPublicSyncService.swift in Sources */,
 				457FABA72F118870006D4652 /* TimingEngines.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,6 +461,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				AUTOMATION_APPLE_EVENTS = NO;
+				CODE_SIGN_ENTITLEMENTS = "Dopamine Trainer/Dopamine Trainer.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -508,6 +521,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				AUTOMATION_APPLE_EVENTS = NO;
+				CODE_SIGN_ENTITLEMENTS = "Dopamine Trainer/Dopamine Trainer.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

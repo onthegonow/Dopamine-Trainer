@@ -1,4 +1,5 @@
 import SwiftUI
+import CloudKit
 
 struct HistoryView: View {
 
@@ -8,6 +9,7 @@ struct HistoryView: View {
     }
 
     @ObservedObject private var store = UrgeStore.shared
+    @ObservedObject private var flags = FeatureFlags.shared
     @State private var showSummary = true
 
     var body: some View {
@@ -63,8 +65,23 @@ struct HistoryView: View {
                 .padding(.horizontal, 20)
             }
         }
+        .toolbar {
+            if flags.isAdmin {
+                ToolbarItemGroup(placement: .automatic) {
+                    Button("Clear Local History") {
+                        clearLocalHistory()
+                    }
+                    Button("Clear Cloud History") {
+                        Task { await clearCloudHistory() }
+                    }
+                }
+            }
+        }
         .onChange(of: store.currentFilter) {
             store.queryHistory(reset: true)
+        }
+        .onAppear {
+            flags.setAdminFromCurrentCloudUser()
         }
     }
 
@@ -74,6 +91,32 @@ struct HistoryView: View {
             .frame(maxWidth: .infinity, alignment: .center)
             .padding(.horizontal)
             .padding(.top, 8)
+    }
+
+    private func clearLocalHistory() {
+        let count = UrgeStore.shared.allHistoryEntriesForSummary.count
+        UrgeStore.shared.replaceHistoryFromCloud([])
+        // Reset the incremental CloudKit cursor so older events can be fetched again
+        UserDefaults.standard.removeObject(forKey: "cloudLastSyncDate")
+        print("[Admin] 🧹 Cleared local history: \(count) entries; reset cloudLastSyncDate")
+        // Kick off a fresh merge to pull any remaining remote events (if any)
+        UrgeStore.shared.pollCloudAndMerge(limit: 200)
+    }
+
+    private func clearCloudHistory() async {
+        do {
+            let events = try await CloudKitPublicSyncService.shared.fetchCravingHistory(limit: 1000)
+            let count = events.count
+            guard count > 0 else {
+                print("[Admin] 🧹 Cleared cloud history: 0 entries (nothing to delete)")
+                return
+            }
+            let recordIDs = events.map { CKRecord.ID(recordName: "craving_\($0.eventID)") }
+            try await CloudKitPublicSyncService.shared.deleteCravingEvents(recordIDs: recordIDs)
+            print("[Admin] 🧹 Cleared cloud history: \(count) entries")
+        } catch {
+            print("[Admin] ❌ error clearing cloud history: \(error)")
+        }
     }
 }
 

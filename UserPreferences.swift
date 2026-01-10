@@ -8,7 +8,6 @@ final class UserPreferences: ObservableObject {
     private let defaults = UserDefaults.standard
     private let tagOrderKey = "tagOrder"
     private let hiddenTagsKey = "hiddenTags"
-    private let customTagCatalogKey = "customTagCatalog"
     
     private init() {}
     
@@ -110,34 +109,86 @@ final class UserPreferences: ObservableObject {
         return "\(hiddenTagsKey)_\(entryId.uuidString)"
     }
     
-    // MARK: - Custom Tag Catalog (emoji -> label)
-    /// Save or update a custom label for an emoji
-    func saveCustomLabel(forEmoji emoji: String, label: String) {
-        var catalog = getCustomTagCatalog()
-        catalog[emoji] = label
-        defaults.set(catalog, forKey: customTagCatalogKey)
+    // MARK: - Emoji-to-Tag Mapping
+    //
+    // ARCHITECTURE NOTE:
+    // - Emojis are stored in the database (CloudKit) as raw strings (e.g., "🚬", "🎮").
+    // - Default emoji-to-label mappings live in code (see UrgeTag.defaultCatalog).
+    // - This user settings storage ONLY contains custom mappings:
+    //   1. When a user changes the label for a default emoji (e.g., "🚬" -> "cigarettes" instead of "substance")
+    //   2. When a user adds a completely new emoji that's not in the default catalog
+    // - When resolving an emoji to a label, check custom mappings first, then fall back to defaults.
+    
+    private let emojiTagMappingKey = "emojiTagMapping"
+    
+    /// Emoji-to-label mapping array. Only stores user customizations, not defaults.
+    /// Format: Dictionary where key is emoji string and value is custom label.
+    func getEmojiTagMapping() -> [String: String] {
+        return defaults.dictionary(forKey: emojiTagMappingKey) as? [String: String] ?? [:]
     }
-
-    /// Retrieve a custom label for an emoji if present
+    
+    /// Save or update a custom label for an emoji.
+    /// This should ONLY be called when:
+    /// 1. User changes the label for a default emoji, OR
+    /// 2. User adds a new emoji not in the default catalog
+    func saveEmojiTagMapping(emoji: String, label: String) {
+        var mapping = getEmojiTagMapping()
+        mapping[emoji] = label
+        defaults.set(mapping, forKey: emojiTagMappingKey)
+    }
+    
+    /// Get the label for an emoji, checking custom mappings first, then defaults.
+    /// Returns nil if emoji is not found in either custom or default mappings.
     func labelForEmoji(_ emoji: String) -> String? {
-        let catalog = getCustomTagCatalog()
-        return catalog[emoji]
+        // Check custom mapping first
+        let customMapping = getEmojiTagMapping()
+        if let customLabel = customMapping[emoji] {
+            return customLabel
+        }
+        
+        // Fall back to default catalog
+        if let defaultTag = UrgeTag.defaultCatalog.first(where: { $0.emoji == emoji }) {
+            return defaultTag.label
+        }
+        
+        return nil
     }
-
-    /// Retrieve the full custom catalog
-    func getCustomTagCatalog() -> [String: String] {
-        return defaults.dictionary(forKey: customTagCatalogKey) as? [String: String] ?? [:]
+    
+    /// Remove a custom mapping for an emoji (reverts to default if it exists in defaultCatalog)
+    func clearEmojiTagMapping(forEmoji emoji: String) {
+        var mapping = getEmojiTagMapping()
+        mapping.removeValue(forKey: emoji)
+        defaults.set(mapping, forKey: emojiTagMappingKey)
     }
-
-    /// Clear a specific custom label
-    func clearCustomLabel(forEmoji emoji: String) {
-        var catalog = getCustomTagCatalog()
-        catalog.removeValue(forKey: emoji)
-        defaults.set(catalog, forKey: customTagCatalogKey)
+    
+    /// Clear all custom emoji mappings (reverts all to defaults)
+    func clearAllEmojiTagMappings() {
+        defaults.removeObject(forKey: emojiTagMappingKey)
     }
-
-    /// Clear all custom labels
-    func clearAllCustomLabels() {
+    
+    // MARK: - Legacy Support (deprecated keys)
+    
+    @available(*, deprecated, message: "Use emojiTagMapping instead")
+    private let customTagCatalogKey = "customTagCatalog"
+    
+    /// Migrate old customTagCatalog to new emojiTagMapping if needed
+    func migrateCustomTagCatalogIfNeeded() {
+        guard let oldCatalog = defaults.dictionary(forKey: customTagCatalogKey) as? [String: String],
+              !oldCatalog.isEmpty else {
+            return
+        }
+        
+        // Copy to new key
+        var newMapping = getEmojiTagMapping()
+        for (emoji, label) in oldCatalog {
+            if newMapping[emoji] == nil {
+                newMapping[emoji] = label
+            }
+        }
+        defaults.set(newMapping, forKey: emojiTagMappingKey)
+        
+        // Clear old key
         defaults.removeObject(forKey: customTagCatalogKey)
+        print("✅ Migrated \(oldCatalog.count) custom tag mappings to new storage")
     }
 }

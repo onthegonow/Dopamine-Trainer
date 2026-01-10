@@ -151,14 +151,17 @@ struct TopCravingCard: View {
     var body: some View {
         SummaryCard {
             VStack(spacing: 8) {
-                VStack(alignment: .leading, spacing: 4) {
+                HStack(spacing: 6) {
                     Image(systemName: "trophy.fill")
-                        .font(.system(size: 16))  // +4 from caption (12 → 16)
+                        .font(.system(size: 16))
                         .foregroundColor(.yellow)
                     Text("Most Frequent")
-                        .font(.system(size: 16))  // +4 from caption (12 → 16)
+                        .font(.system(size: 16))
                         .fontWeight(.bold)
                         .foregroundColor(.secondary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+                        .truncationMode(.tail)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 

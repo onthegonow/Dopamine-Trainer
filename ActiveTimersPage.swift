@@ -1,4 +1,5 @@
 import SwiftUI
+import CloudKit
 
 struct ActiveTimersPage: View {
 
@@ -29,6 +30,7 @@ struct ActiveTimersPage: View {
                     // Button at the top - NOT in the scrollable area
                     CravingButton {
                         store.createActive()
+                        print("[App] (button) created local active entry; CloudKit event will be sent on resolve only")
                     }
                     .padding(.top, 20)
                     .padding(.bottom, 24)
@@ -85,6 +87,7 @@ struct ActiveTimersPage: View {
         .frame(minWidth: 800, minHeight: 400)
         .toolbarRole(.editor)
         .onAppear {
+            print("[App] ⏳ Starting AutoFadeReconciler")
             AutoFadeReconciler(store: store).start()
         }
     }
@@ -190,4 +193,5 @@ struct ActiveTimerRow: View {
         }
     }
 }
+
 

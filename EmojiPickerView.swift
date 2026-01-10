@@ -1,5 +1,15 @@
 import SwiftUI
 
+/// EmojiPickerSheet
+///
+/// EMOJI-TAG MAPPING ARCHITECTURE:
+/// - This picker displays emojis from UrgeTag.defaultCatalog (with their default labels)
+/// - When user selects an emoji, they can optionally change the label
+/// - If the label matches the default, no custom mapping is stored
+/// - If the label differs or it's a new emoji, a custom mapping is saved to UserPreferences
+/// - Database (CloudKit) stores only the emoji string, not the label
+/// - Labels are resolved at display time by checking custom mappings first, then defaults
+///
 struct EmojiPickerSheet: View {
     var onSelect: (String, String) -> Void
     var onCancel: () -> Void

@@ -27,15 +27,40 @@ enum UrgeStatus: String, Codable, CaseIterable, Identifiable {
 }
 
 // MARK: - UrgeTag
+//
+// EMOJI-TAG MAPPING ARCHITECTURE:
+//
+// 1. DATABASE STORAGE (CloudKit):
+//    - Only emoji strings are stored (e.g., "🚬", "🎮", "🍰")
+//    - No labels are stored in the database
+//
+// 2. DEFAULT MAPPINGS (Code):
+//    - Live in UrgeTag.defaultCatalog below
+//    - Provide standard emoji-to-label mappings (e.g., "🚬" -> "substance")
+//
+// 3. CUSTOM MAPPINGS (UserPreferences):
+//    - Stored ONLY when user customizes a mapping:
+//      a) Changes a default label (e.g., "🚬" -> "cigarettes" instead of "substance")
+//      b) Adds a new emoji not in defaultCatalog
+//    - Accessed via UserPreferences.shared.getEmojiTagMapping()
+//
+// 4. LABEL RESOLUTION:
+//    - Check custom mappings first (UserPreferences.shared.labelForEmoji())
+//    - Fall back to defaultCatalog if no custom mapping exists
+//    - This ensures user customizations take precedence
+//
 
 struct UrgeTag: Codable, Equatable, Hashable, Transferable {
-    var label: String   // tooltip text (e.g., "substance")
-    var emoji: String   // visible emoji only (e.g., "🚬")
+    var label: String   // Display label (e.g., "substance", "cigarettes")
+    var emoji: String   // Emoji character (e.g., "🚬") - THIS is what gets stored in database
 
     static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(contentType: .json)
     }
 
+    /// Default emoji-to-label mappings.
+    /// These are the built-in tags available to all users.
+    /// Custom user mappings are stored separately in UserPreferences.
     static let defaultCatalog: [UrgeTag] = [
         UrgeTag(label: "substance", emoji: "🚬"),
         UrgeTag(label: "games", emoji: "🎮"),
@@ -52,6 +77,7 @@ struct UrgeEntryModel: Identifiable, Codable, Equatable {
     var resolvedAt: Date?
     var status: UrgeStatus
     var tags: [UrgeTag] = []
+    var cloudEventID: String? = nil
 
     var durationSeconds: TimeInterval {
         if status == .active {
@@ -65,3 +91,4 @@ struct UrgeEntryModel: Identifiable, Codable, Equatable {
         }
     }
 }
+
