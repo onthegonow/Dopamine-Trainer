@@ -11,57 +11,69 @@ struct HistoryView: View {
     @State private var showSummary = true
 
     var body: some View {
-        VStack(spacing: 0) {
-            // Summary Dashboard (collapsible)
-            if showSummary {
-                CravingSummaryDashboard(store: store)
-                    .transition(.move(edge: .top).combined(with: .opacity))
-                
-                Divider()
-                    .padding(.vertical, 8)
-            }
-            
-            // Toggle button for summary
-            HStack {
-                Button {
-                    withAnimation(.easeInOut(duration: 0.25)) {
-                        showSummary.toggle()
-                    }
-                } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: showSummary ? "chevron.up" : "chevron.down")
-                        Text(showSummary ? "Hide Summary" : "Show Summary")
-                    }
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                }
-                .buttonStyle(.plain)
-                
-                Spacer()
-            }
-            .padding(.horizontal)
-            .padding(.bottom, 8)
-            
-            HistoryFilterStatusControl(selectedFilter: $store.currentFilter)
-                .padding(.horizontal)
-                .padding(.bottom, 16)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                // Summary Dashboard (collapsible)
+                if showSummary {
+                    summaryContent()
+                        .transition(.move(edge: .top).combined(with: .opacity))
 
-            HistoryTableHeader()
-                .padding(.horizontal, 20)
+                    Divider()
+                        .padding(.vertical, 8)
+                }
+
+                // Toggle button for summary
+                HStack {
+                    Button {
+                        withAnimation(.easeInOut(duration: 0.25)) {
+                            showSummary.toggle()
+                        }
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: showSummary ? "chevron.up" : "chevron.down")
+                            Text(showSummary ? "Hide Summary" : "Show Summary")
+                        }
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    }
+                    .buttonStyle(.plain)
+
+                    Spacer()
+                }
+                .padding(.horizontal)
                 .padding(.bottom, 8)
 
-            List(store.historyEntriesPage) { entry in
-                HistoryRow(entry: entry)
-                    .onAppear {
-                        store.loadMoreHistoryIfNeeded(currentItem: entry)
+                HistoryFilterStatusControl(selectedFilter: $store.currentFilter)
+                    .padding(.horizontal)
+                    .padding(.bottom, 16)
+
+                HistoryTableHeader()
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 8)
+
+                LazyVStack(spacing: 0) {
+                    ForEach(store.historyEntriesPage) { entry in
+                        HistoryRow(entry: entry)
+                            .onAppear {
+                                store.loadMoreHistoryIfNeeded(currentItem: entry)
+                            }
+                        Divider()
                     }
+                }
+                .padding(.horizontal, 20)
             }
-            .listStyle(.plain)
-            .padding(.horizontal, 20)
         }
         .onChange(of: store.currentFilter) {
             store.queryHistory(reset: true)
         }
+    }
+
+    @ViewBuilder
+    private func summaryContent() -> some View {
+        CravingSummaryDashboard(store: store)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.horizontal)
+            .padding(.top, 8)
     }
 }
 
@@ -86,15 +98,15 @@ struct HistoryTableHeader: View {
             Text("Date")
                 .frame(width: 140, alignment: .leading)
                 .font(.system(size: 13, weight: .semibold))
-            
+
             Text("Tags")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.system(size: 13, weight: .semibold))
-            
+
             Text("Craving Time")
                 .frame(width: 100, alignment: .trailing)
                 .font(.system(size: 13, weight: .semibold))
-            
+
             Text("Outcome")
                 .frame(width: 160, alignment: .trailing)
                 .font(.system(size: 13, weight: .semibold))
@@ -105,7 +117,7 @@ struct HistoryTableHeader: View {
 
 struct HistoryRow: View {
     let entry: UrgeEntryModel
-    
+
     @State private var showingAddTag: Bool = false
 
     private var timestampString: String {
@@ -165,3 +177,4 @@ struct HistoryRow: View {
         }
     }
 }
+

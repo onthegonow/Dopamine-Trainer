@@ -1,14 +1,23 @@
 import SwiftUI
 import Charts
+#if os(iOS)
+import UIKit
+#endif
 
 // MARK: - Summary Dashboard Container
 
 struct CravingSummaryDashboard: View {
     @ObservedObject var store: UrgeStore
     @State private var selectedTimeSlice: SummaryTimeSlice = .week
+
+    private let phoneCarouselHeight: CGFloat = 320
     
-    private var stats: CravingSummaryStats {
-        store.summaryStats(for: selectedTimeSlice)
+    private var isPhone: Bool {
+        #if os(iOS)
+        return UIDevice.current.userInterfaceIdiom == .phone
+        #else
+        return false
+        #endif
     }
     
     var body: some View {
@@ -22,27 +31,52 @@ struct CravingSummaryDashboard: View {
                     .frame(maxWidth: .infinity)
                     .padding()
             } else {
-                // Centered card stack container
-                HStack {
-                    Spacer()
-                    
-                    HStack(spacing: 16) {
-                        TopCravingCard(stats: stats)
-                            .frame(width: 180)
-                        
-                        TopCombinationsCard(stats: stats)
-                            .frame(width: 220)
-                        
-                        TrendCarouselCard(stats: stats)
-                            .frame(width: 320)
+                if isPhone {
+                    // iPhone: present cards as a paged carousel to avoid horizontal overflow
+                    VStack(spacing: 12) {
+                        TabView {
+                            TopCravingCard(stats: stats)
+                                .padding(.horizontal)
+                            
+                            TopCombinationsCard(stats: stats)
+                                .padding(.horizontal)
+                            
+                            TrendCarouselCard(stats: stats)
+                                .padding(.horizontal)
+                        }
+                        #if os(iOS)
+                        .tabViewStyle(.page)
+                        .indexViewStyle(.page(backgroundDisplayMode: .automatic))
+                        #endif
+                        .frame(height: phoneCarouselHeight)
                     }
-                    
-                    Spacer()
+                } else {
+                    // macOS/iPad/etc: show the full dashboard with fixed card widths
+                    HStack {
+                        Spacer()
+                        
+                        HStack(spacing: 16) {
+                            TopCravingCard(stats: stats)
+                                .frame(width: 180)
+                            
+                            TopCombinationsCard(stats: stats)
+                                .frame(width: 220)
+                            
+                            TrendCarouselCard(stats: stats)
+                                .frame(width: 320)
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
             }
         }
         .padding(.vertical)
+    }
+    
+    private var stats: CravingSummaryStats {
+        store.summaryStats(for: selectedTimeSlice)
     }
 }
 

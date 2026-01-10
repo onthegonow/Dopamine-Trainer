@@ -12,11 +12,12 @@ struct ActiveTimersPage: View {
         VStack(spacing: 0) {
             // Top navigation picker - explicitly NOT a toolbar
             VStack {
-                Picker("View", selection: $selection) {
+                Picker("", selection: $selection) {
                     Text("Active Timers").tag(HistoryView.Page.activeTimers)
                     Text("History").tag(HistoryView.Page.history)
                 }
                 .pickerStyle(SegmentedPickerStyle())
+                .labelsHidden()
                 .padding(.horizontal)
                 .padding(.vertical, 12)
             }
