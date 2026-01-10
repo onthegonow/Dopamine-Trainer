@@ -49,49 +49,137 @@ final class UrgeStore: ObservableObject {
 
     // MARK: - Tag Management
     func toggleTag(entryId: UUID, tag: UrgeTag) {
-        guard let index = activeEntries.firstIndex(where: { $0.id == entryId }) else { return }
-        var entry = activeEntries[index]
-        if let existingIndex = entry.tags.firstIndex(of: tag) {
-            entry.tags.remove(at: existingIndex)
-        } else {
-            entry.tags.append(tag)
+        // Try active entries first
+        if let index = activeEntries.firstIndex(where: { $0.id == entryId }) {
+            var entry = activeEntries[index]
+            if let existingIndex = entry.tags.firstIndex(of: tag) {
+                entry.tags.remove(at: existingIndex)
+            } else {
+                entry.tags.append(tag)
+            }
+            activeEntries[index] = entry
+            defaultTags = entry.tags
+            return
         }
-        activeEntries[index] = entry
-        defaultTags = entry.tags
+        
+        // Try history entries
+        if let index = allHistoryEntries.firstIndex(where: { $0.id == entryId }) {
+            var entry = allHistoryEntries[index]
+            if let existingIndex = entry.tags.firstIndex(of: tag) {
+                entry.tags.remove(at: existingIndex)
+            } else {
+                entry.tags.append(tag)
+            }
+            allHistoryEntries[index] = entry
+            // Update the displayed page as well
+            updateHistoryPage(entry)
+            return
+        }
     }
 
     func addCustomTag(entryId: UUID, label: String) {
         guard !label.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-        guard let index = activeEntries.firstIndex(where: { $0.id == entryId }) else { return }
-        var entry = activeEntries[index]
-        // Use the first character as emoji if it's an emoji; otherwise show a generic label emoji
-        let emoji = String(label.trimmingCharacters(in: .whitespacesAndNewlines).prefix(1))
-        let newTag = UrgeTag(label: label, emoji: emoji)
-        if entry.tags.contains(newTag) == false {
-            entry.tags.append(newTag)
+        
+        // Try active entries first
+        if let index = activeEntries.firstIndex(where: { $0.id == entryId }) {
+            var entry = activeEntries[index]
+            // Use the first character as emoji if it's an emoji; otherwise show a generic label emoji
+            let emoji = String(label.trimmingCharacters(in: .whitespacesAndNewlines).prefix(1))
+            let newTag = UrgeTag(label: label, emoji: emoji)
+            UserPreferences.shared.saveCustomLabel(forEmoji: emoji, label: label)
+            if entry.tags.contains(newTag) == false {
+                entry.tags.append(newTag)
+            }
+            activeEntries[index] = entry
+            defaultTags = entry.tags
+            return
         }
-        activeEntries[index] = entry
-        defaultTags = entry.tags
+        
+        // Try history entries
+        if let index = allHistoryEntries.firstIndex(where: { $0.id == entryId }) {
+            var entry = allHistoryEntries[index]
+            let emoji = String(label.trimmingCharacters(in: .whitespacesAndNewlines).prefix(1))
+            let newTag = UrgeTag(label: label, emoji: emoji)
+            UserPreferences.shared.saveCustomLabel(forEmoji: emoji, label: label)
+            if entry.tags.contains(newTag) == false {
+                entry.tags.append(newTag)
+            }
+            allHistoryEntries[index] = entry
+            // Update the displayed page as well
+            updateHistoryPage(entry)
+            return
+        }
     }
 
     func addCustomTag(entryId: UUID, emoji: String, label: String) {
         guard !label.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-        guard let index = activeEntries.firstIndex(where: { $0.id == entryId }) else { return }
-        var entry = activeEntries[index]
-        let newTag = UrgeTag(label: label, emoji: emoji)
-        if entry.tags.contains(newTag) == false {
-            entry.tags.append(newTag)
+        print("📝 UrgeStore.addCustomTag called for entry \(entryId) with emoji '\(emoji)' and label '\(label)'")
+        
+        // Try active entries first
+        if let index = activeEntries.firstIndex(where: { $0.id == entryId }) {
+            print("✅ Found entry in activeEntries at index \(index)")
+            var entry = activeEntries[index]
+            let newTag = UrgeTag(label: label, emoji: emoji)
+            UserPreferences.shared.saveCustomLabel(forEmoji: emoji, label: label)
+            if entry.tags.contains(newTag) == false {
+                entry.tags.append(newTag)
+                print("✅ Added tag '\(emoji)' to active entry, now has \(entry.tags.count) tags")
+            } else {
+                print("⚠️ Tag already exists in active entry")
+            }
+            activeEntries[index] = entry
+            defaultTags = entry.tags
+            return
         }
-        activeEntries[index] = entry
-        defaultTags = entry.tags
+        
+        // Try history entries
+        if let index = allHistoryEntries.firstIndex(where: { $0.id == entryId }) {
+            print("✅ Found entry in allHistoryEntries at index \(index)")
+            var entry = allHistoryEntries[index]
+            let newTag = UrgeTag(label: label, emoji: emoji)
+            UserPreferences.shared.saveCustomLabel(forEmoji: emoji, label: label)
+            if entry.tags.contains(newTag) == false {
+                entry.tags.append(newTag)
+                print("✅ Added tag '\(emoji)' to history entry, now has \(entry.tags.count) tags")
+            } else {
+                print("⚠️ Tag already exists in history entry")
+            }
+            allHistoryEntries[index] = entry
+            // Update the displayed page as well
+            updateHistoryPage(entry)
+            return
+        }
+        
+        print("❌ Entry not found in activeEntries or allHistoryEntries")
     }
 
     func reorderTags(entryId: UUID, tags: [UrgeTag]) {
-        guard let index = activeEntries.firstIndex(where: { $0.id == entryId }) else { return }
-        var entry = activeEntries[index]
-        entry.tags = tags
-        activeEntries[index] = entry
-        defaultTags = entry.tags
+        // Try active entries first
+        if let index = activeEntries.firstIndex(where: { $0.id == entryId }) {
+            var entry = activeEntries[index]
+            entry.tags = tags
+            activeEntries[index] = entry
+            defaultTags = entry.tags
+            return
+        }
+        
+        // Try history entries
+        if let index = allHistoryEntries.firstIndex(where: { $0.id == entryId }) {
+            var entry = allHistoryEntries[index]
+            entry.tags = tags
+            allHistoryEntries[index] = entry
+            // Update the displayed page as well
+            updateHistoryPage(entry)
+            return
+        }
+    }
+    
+    // Helper to update an entry in the displayed history page
+    private func updateHistoryPage(_ updatedEntry: UrgeEntryModel) {
+        if let pageIndex = historyEntriesPage.firstIndex(where: { $0.id == updatedEntry.id }) {
+            historyEntriesPage[pageIndex] = updatedEntry
+            print("✅ Updated entry in historyEntriesPage at index \(pageIndex)")
+        }
     }
 
     enum StatusFilter: String, CaseIterable, Identifiable {

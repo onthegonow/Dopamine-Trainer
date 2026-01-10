@@ -41,7 +41,8 @@ struct UrgeTag: Codable, Equatable, Hashable, Transferable {
         UrgeTag(label: "games", emoji: "🎮"),
         UrgeTag(label: "sugar", emoji: "🍰"),
         UrgeTag(label: "porn", emoji: "🔞"),
-        UrgeTag(label: "internet", emoji: "🌐")
+        UrgeTag(label: "internet", emoji: "🌐"),
+        UrgeTag(label: "chat", emoji: "💬")
     ]
 }
 

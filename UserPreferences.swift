@@ -7,6 +7,8 @@ final class UserPreferences: ObservableObject {
     
     private let defaults = UserDefaults.standard
     private let tagOrderKey = "tagOrder"
+    private let hiddenTagsKey = "hiddenTags"
+    private let customTagCatalogKey = "customTagCatalog"
     
     private init() {}
     
@@ -53,5 +55,89 @@ final class UserPreferences: ObservableObject {
     
     private func tagOrderKey(for entryId: UUID) -> String {
         return "\(tagOrderKey)_\(entryId.uuidString)"
+    }
+    
+    // MARK: - Hidden Tags Management
+    
+    /// Saves the hidden tags for a specific entry
+    func saveHiddenTags(for entryId: UUID, tags: Set<UrgeTag>) {
+        let encoder = JSONEncoder()
+        let tagsArray = Array(tags)
+        if let encoded = try? encoder.encode(tagsArray) {
+            defaults.set(encoded, forKey: hiddenTagsKey(for: entryId))
+        }
+    }
+    
+    /// Retrieves the hidden tags for a specific entry
+    func getHiddenTags(for entryId: UUID) -> Set<UrgeTag>? {
+        guard let data = defaults.data(forKey: hiddenTagsKey(for: entryId)) else {
+            return nil
+        }
+        let decoder = JSONDecoder()
+        if let tagsArray = try? decoder.decode([UrgeTag].self, from: data) {
+            return Set(tagsArray)
+        }
+        return nil
+    }
+    
+    /// Saves the default/global hidden tags (used for new entries)
+    func saveDefaultHiddenTags(_ tags: Set<UrgeTag>) {
+        let encoder = JSONEncoder()
+        let tagsArray = Array(tags)
+        if let encoded = try? encoder.encode(tagsArray) {
+            defaults.set(encoded, forKey: hiddenTagsKey)
+        }
+    }
+    
+    /// Retrieves the default/global hidden tags
+    func getDefaultHiddenTags() -> Set<UrgeTag>? {
+        guard let data = defaults.data(forKey: hiddenTagsKey) else {
+            return nil
+        }
+        let decoder = JSONDecoder()
+        if let tagsArray = try? decoder.decode([UrgeTag].self, from: data) {
+            return Set(tagsArray)
+        }
+        return nil
+    }
+    
+    /// Clears the hidden tags for a specific entry
+    func clearHiddenTags(for entryId: UUID) {
+        defaults.removeObject(forKey: hiddenTagsKey(for: entryId))
+    }
+    
+    private func hiddenTagsKey(for entryId: UUID) -> String {
+        return "\(hiddenTagsKey)_\(entryId.uuidString)"
+    }
+    
+    // MARK: - Custom Tag Catalog (emoji -> label)
+    /// Save or update a custom label for an emoji
+    func saveCustomLabel(forEmoji emoji: String, label: String) {
+        var catalog = getCustomTagCatalog()
+        catalog[emoji] = label
+        defaults.set(catalog, forKey: customTagCatalogKey)
+    }
+
+    /// Retrieve a custom label for an emoji if present
+    func labelForEmoji(_ emoji: String) -> String? {
+        let catalog = getCustomTagCatalog()
+        return catalog[emoji]
+    }
+
+    /// Retrieve the full custom catalog
+    func getCustomTagCatalog() -> [String: String] {
+        return defaults.dictionary(forKey: customTagCatalogKey) as? [String: String] ?? [:]
+    }
+
+    /// Clear a specific custom label
+    func clearCustomLabel(forEmoji emoji: String) {
+        var catalog = getCustomTagCatalog()
+        catalog.removeValue(forKey: emoji)
+        defaults.set(catalog, forKey: customTagCatalogKey)
+    }
+
+    /// Clear all custom labels
+    func clearAllCustomLabels() {
+        defaults.removeObject(forKey: customTagCatalogKey)
     }
 }

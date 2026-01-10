@@ -19,35 +19,50 @@ struct ActiveTimersPage: View {
             .padding()
 
             if selection == .activeTimers {
-                CravingButton {
-                    store.createActive()
-                }
-                .padding(.top, 20)
-                .padding(.bottom, 24)
-
-                if store.activeEntries.isEmpty {
-                    Spacer()
-                    Text("No active urges")
-                        .foregroundColor(.secondary)
-                    Spacer()
-                } else {
-                    List {
-                        ForEach(store.activeEntries) { entry in
-                            ActiveTimerRow(entry: entry,
-                                           timerEngine: timerEngine,
-                                           onBeatIt: { store.resolve(entryId: entry.id, status: .beatIt) },
-                                           onScratchedItch: { store.resolve(entryId: entry.id, status: .satisfied) })
-                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                Button(role: .destructive) {
-                                    deleteConfirmationEntry = entry
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
+                VStack(spacing: 0) {
+                    // Button at the top - NOT in the scrollable area
+                    CravingButton {
+                        store.createActive()
+                    }
+                    .padding(.top, 20)
+                    .padding(.bottom, 24)
+                    
+                    // List below - this is the scrollable area
+                    if store.activeEntries.isEmpty {
+                        Spacer()
+                        Text("No active urges")
+                            .foregroundColor(.secondary)
+                        Spacer()
+                    } else {
+                        ScrollViewReader { proxy in
+                            List {
+                                ForEach(store.activeEntries) { entry in
+                                    ActiveTimerRow(entry: entry,
+                                                   timerEngine: timerEngine,
+                                                   onBeatIt: { store.resolve(entryId: entry.id, status: .beatIt) },
+                                                   onScratchedItch: { store.resolve(entryId: entry.id, status: .satisfied) })
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                        Button(role: .destructive) {
+                                            deleteConfirmationEntry = entry
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    }
+                                    .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
+                                    .id(entry.id) // Add ID so we can scroll to it
                                 }
                             }
-                            .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
+                            .listStyle(PlainListStyle())
+                            .onChange(of: store.activeEntries.map { $0.id }) { oldIDs, newIDs in
+                                // When the list of IDs changes, scroll to the first entry
+                                if let firstEntry = store.activeEntries.first {
+                                    withAnimation(.easeOut(duration: 0.3)) {
+                                        proxy.scrollTo(firstEntry.id, anchor: .top)
+                                    }
+                                }
+                            }
                         }
                     }
-                    .listStyle(PlainListStyle())
                 }
             } else if selection == .history {
                 HistoryView()
@@ -61,7 +76,7 @@ struct ActiveTimersPage: View {
                   },
                   secondaryButton: .cancel())
         }
-        .frame(minWidth: 480, minHeight: 400)
+        .frame(minWidth: 800, minHeight: 400)
         .onAppear {
             AutoFadeReconciler(store: store).start()
         }
@@ -128,13 +143,16 @@ struct ActiveTimerRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack(spacing: 12) {
+            HStack(alignment: .top, spacing: 12) {
                 TimerLabelView(text: elapsedTimeString, fontSize: 36, width: 200, alignment: .leading)
+                    .padding(.top, 4) // Align with top of tags
 
                 InlineTagToggles(entryId: entry.id, selectedTags: entry.tags) {
                     showingAddTag = true
                 }
-                .frame(minWidth: 180, maxWidth: .infinity, alignment: .leading)
+                .frame(minWidth: 240, maxWidth: .infinity, alignment: .leading) // Increased from 180 to 240
+
+                Spacer(minLength: 20) // Add space before buttons
 
                 Button("Beat it!") {
                     onBeatIt()
